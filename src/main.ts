@@ -1,19 +1,48 @@
-import cors from 'cors'
+import http from 'http'
 import 'dotenv/config'
 import express from 'express'
+import { corsHandler } from './middlewares/corsHandler'
+import { routeNotFound } from './middlewares/routeNotFound'
+import logging from './config/logger'
+import loggingHandler from './middlewares/loggingHandler'
 
-const app = express()
+export const application = express()
+export let httpServer: ReturnType<typeof http.createServer>
 
-app.use(cors())
-app.use(express.json())
-app.use(express.urlencoded({ extended: true }))
+export const Main = () => {
+    logging.info('-----------------------------------------')
+    logging.info('Initializing API')
+    logging.info('-----------------------------------------')
 
-const PORT = process.env.PORT || 5000
+    application.use(express.urlencoded({ extended: true }))
+    application.use(express.json())
 
-app.get('/api', (_req, res) => {
-    res.status(200).json({ message: 'Hello from the server!' })
-})
+    logging.info('-----------------------------------------')
+    logging.info('Logging & Configuration')
+    logging.info('-----------------------------------------')
 
-app.listen(PORT, () => {
-    console.log(`Server is running`)
-})
+    application.use(loggingHandler)
+    application.use(corsHandler)
+
+    logging.info('-----------------------------------------')
+    logging.info('Logging & Configuration')
+    logging.info('-----------------------------------------')
+
+    application.get('/main/healthcheck', (_req, res) => {
+        return res.json({ hello: 'world' })
+    })
+
+    logging.info('-----------------------------------------')
+    logging.info('Logging & Configuration')
+    logging.info('-----------------------------------------')
+    application.use(routeNotFound)
+    httpServer = http.createServer(application)
+    httpServer.listen(5000, () => {
+        logging.info('SERVER STARTED')
+    })
+}
+
+export const Shutdown = (callback: (error?: Error) => void) =>
+    httpServer && httpServer.close(callback)
+
+Main()
