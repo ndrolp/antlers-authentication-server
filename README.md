@@ -1,6 +1,9 @@
 # Antlers Authentication Service
 
-This project is currently on coocking stage be pacient
+This project originated from the question of how microservices handle
+authentication and authorization. The idea is to create a Docker image,
+developed with TypeScript, that can be reused with other microservices and is
+technology-agnostic.
 
 # Start development
 
