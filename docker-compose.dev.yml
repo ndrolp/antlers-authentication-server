@@ -1,0 +1,11 @@
+services:
+  api:
+    build:
+      context: .
+      target: development
+    volumes:
+      - ./:/usr/src/app
+      - /usr/src/app/node_modules
+    ports:
+      - ${ANTLERS_SERVER_PORT}:5000
+    command: npm run dev
