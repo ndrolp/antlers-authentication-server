@@ -117,9 +117,6 @@ const logging = {
     error,
     warning: warn,
     getCallingFunction,
-    separator: () => {
-        info('-----------------------------------------')
-    },
 }
 
 export default logging

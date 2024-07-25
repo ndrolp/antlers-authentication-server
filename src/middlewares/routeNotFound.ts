@@ -6,5 +6,5 @@ export function routeNotFound(_req: Request, res: Response) {
 
     logging.error(err.message)
 
-    return res.status(404).json({ err: err.message })
+    return res.status(404).json({ error: err.message })
 }
