@@ -15,3 +15,11 @@ Then you can start the containers with
 ```bash
 docker compose --env-file <env-file> -f docker-compose.dev.yml up -d
 ```
+
+# Build the image
+
+To build the production ready image you can run
+
+```bash
+docker build -t antlers-authentication .
+```

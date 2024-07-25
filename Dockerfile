@@ -21,7 +21,9 @@ WORKDIR /usr/src/app
 
 COPY package.json* .
 
-RUN npm ci --only=production
+RUN npm install --only=production
+
+EXPOSE 5000
 
 COPY --from=development /usr/src/app/dist ./dist
 
