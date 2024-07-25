@@ -3,13 +3,15 @@
     "version": "0.0.1",
     "main": "main.js",
     "scripts": {
-        "dev": "nodemon"
+        "dev": "nodemon ./src/main.ts"
     },
     "nodemonConfig": {
+        "execMap": {
+            "ts": "ts-node"
+        },
         "watch": [
             "src"
         ],
-        "exec": "tsc && node ./dist/main.js",
         "ext": "ts,js,json"
     },
     "keywords": [],
@@ -23,6 +25,7 @@
     },
     "devDependencies": {
         "@eslint/js": "^9.7.0",
+        "ts-node": "^10.9.2",
         "@types/cors": "^2.8.17",
         "@types/express": "^4.17.21",
         "@types/node": "^20.14.12",
