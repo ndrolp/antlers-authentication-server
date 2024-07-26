@@ -18,7 +18,7 @@ describe('Our Application', () => {
     }, 10000)
 
     it('The healthcheck route is working', async () => {
-        const response = await request(application).get('/main/healthcheck')
+        const response = await request(application).get('/healthcheck')
 
         expect(response.status).toBe(200)
         expect(response.body).toBeDefined()

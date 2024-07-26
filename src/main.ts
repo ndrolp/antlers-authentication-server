@@ -1,10 +1,13 @@
 import http from 'http'
 import 'dotenv/config'
 import express from 'express'
-import { corsHandler } from './middlewares/corsHandler'
-import { routeNotFound } from './middlewares/routeNotFound'
-import logging from './config/logger'
-import loggingHandler from './middlewares/loggingHandler'
+import { corsHandler } from './core/middlewares/corsHandler'
+import { routeNotFound } from './core//middlewares/routeNotFound'
+import logging from './core/config/logger'
+import loggingHandler from './core/middlewares/loggingHandler'
+import 'reflect-metadata'
+import { defineRoutes } from './modules/routes'
+import MainController from './core/controllers/MainController'
 
 export const application = express()
 export let httpServer: ReturnType<typeof http.createServer>
@@ -25,12 +28,10 @@ export const Main = () => {
     application.use(corsHandler)
 
     logging.info('-----------------------------------------')
-    logging.info('Logging & Configuration')
+    logging.info('Define Routes')
     logging.info('-----------------------------------------')
 
-    application.get('/main/healthcheck', (_req, res) => {
-        return res.json({ hello: 'world' })
-    })
+    defineRoutes([MainController], application)
 
     logging.info('-----------------------------------------')
     logging.info('Logging & Configuration')
