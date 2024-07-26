@@ -8,17 +8,23 @@ import loggingHandler from './core/middlewares/loggingHandler'
 import 'reflect-metadata'
 import { defineRoutes } from './modules/routes'
 import MainController from './core/controllers/MainController'
+import { connectDatabase } from './core/config/database'
 
 export const application = express()
 export let httpServer: ReturnType<typeof http.createServer>
 
-export const Main = () => {
+export const Main = async () => {
     logging.info('-----------------------------------------')
     logging.info('Initializing API')
     logging.info('-----------------------------------------')
 
     application.use(express.urlencoded({ extended: true }))
     application.use(express.json())
+
+    logging.info('-----------------------------------------')
+    logging.info('Connect to Database')
+    logging.info('-----------------------------------------')
+    await connectDatabase()
 
     logging.info('-----------------------------------------')
     logging.info('Logging & Configuration')
@@ -28,14 +34,11 @@ export const Main = () => {
     application.use(corsHandler)
 
     logging.info('-----------------------------------------')
-    logging.info('Define Routes')
+    logging.info('Setup Routes')
     logging.info('-----------------------------------------')
 
     defineRoutes([MainController], application)
 
-    logging.info('-----------------------------------------')
-    logging.info('Logging & Configuration')
-    logging.info('-----------------------------------------')
     application.use(routeNotFound)
     httpServer = http.createServer(application)
     httpServer.listen(5000, () => {
