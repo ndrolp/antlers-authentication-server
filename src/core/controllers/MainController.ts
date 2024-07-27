@@ -2,6 +2,13 @@ import { Request, Response } from 'express'
 import logging from '../config/logger'
 import Controller from '../decorators/controller'
 import { Route } from '../decorators/route'
+import Joi from 'joi'
+import { Validate } from '../decorators/validate'
+
+const postHealthCheckValidation = Joi.object({
+    name: Joi.string().required(),
+    lastName: Joi.string(),
+})
 
 @Controller('')
 class MainController {
@@ -9,6 +16,13 @@ class MainController {
     getHealthCheck(_req: Request, res: Response) {
         logging.info('Healthcheck called successfully')
         return res.json({ hello: 'world' })
+    }
+
+    @Route('post', '/healthcheck')
+    @Validate(postHealthCheckValidation)
+    postHealthCheck(req: Request, res: Response) {
+        logging.info('Healthcheck called successfully')
+        return res.json({ hello: req.body.name, lastName: req.body.lastName })
     }
 }
 

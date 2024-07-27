@@ -18,8 +18,8 @@ export const Main = async () => {
     logging.info('Initializing API')
     logging.info('-----------------------------------------')
 
-    application.use(express.urlencoded({ extended: true }))
     application.use(express.json())
+    application.use(express.urlencoded({ extended: true }))
 
     logging.info('-----------------------------------------')
     logging.info('Connect to Database')

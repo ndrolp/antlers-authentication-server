@@ -33,7 +33,8 @@
         "baseUrl": "."
     },
     "exclude": [
-        "node_modules"
+        "node_modules",
+        "database"
     ],
     "include": [
         "./src/**/*.ts",

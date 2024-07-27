@@ -34,4 +34,30 @@ describe('Our Application', () => {
         expect(response.body).toBeDefined()
         expect(response.body['error']).toBe('Route Not Found')
     })
+
+    it('Test the post healthcheck route', async () => {
+        let payload: { name: string; lastName?: string } = {
+            name: 'Alejandro',
+            lastName: 'prueba@email.com',
+        }
+
+        let response = await request(application)
+            .post('/healthcheck')
+            .send(payload)
+
+        expect(response.body).toBeDefined()
+        expect(response.body['hello']).toBe(payload.name)
+
+        payload = { name: 'Otro' }
+
+        response = await request(application).post('/healthcheck').send(payload)
+
+        expect(response.body).toBeDefined()
+        expect(response.body['hello']).toBe(payload.name)
+
+        response = await request(application).post('/healthcheck')
+        expect(response.status).toBe(422)
+        expect(response.body['_original']).toBeDefined()
+        expect(response.body.details).toBeDefined()
+    }, 10000)
 })
