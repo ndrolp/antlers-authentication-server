@@ -2,6 +2,9 @@ import request from 'supertest'
 import { application, Shutdown } from '../../src/main'
 
 describe('Our Application', () => {
+    beforeAll(() => {
+        // dotenv
+    })
     afterAll(done => {
         Shutdown(done)
     })
