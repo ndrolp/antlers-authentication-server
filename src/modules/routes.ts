@@ -33,7 +33,7 @@ export function defineRoutes(controllers: Constructor[], application: Express) {
                             controllerPath + routeNames[k],
                             handlers,
                         )
-                        logging.log(
+                        logging.info(
                             'Loading Route',
                             method.toString().toUpperCase(),
                             controllerPath + routeNames[k],
