@@ -20,8 +20,6 @@ export const mongo = {
     MONGO_CONNECTION: `mongodb://${MONGO_USER}:${MONGO_PASSWORD}@${MONGO_URL}/${MONGO_DATABASE}`,
 }
 
-//admin@localhost:27017/
-
 export const connectDatabase = async (): Promise<Mongoose | undefined> => {
     try {
         const connection = await mongoose.connect(
