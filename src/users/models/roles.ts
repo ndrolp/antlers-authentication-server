@@ -8,10 +8,10 @@ export interface IRole extends Document {
     description: string
 }
 
-export const roleSchema = new Schema < IRole > ({
+export const roleSchema = new Schema<IRole>({
     name: { type: String, required: true, unique: true },
     label: { type: String, required: true, unique: false },
     description: { type: String, required: true, unique: false },
 })
 
-export const Roles = mongoose.model < IRole & Document > ('roles', roleSchema)
+export const Roles = mongoose.model<IRole>('roles', roleSchema)
