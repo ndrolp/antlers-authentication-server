@@ -5,6 +5,10 @@ const config: Config = {
     testEnvironment: 'node',
     roots: ['<rootDir>/test'],
     maxWorkers: 1,
+    moduleNameMapper: {
+        '^core/(.*)$': '<rootDir>/src/core/$1',
+        '^users/(.*)$': '<rootDir>/src/users/$1',
+    },
     detectOpenHandles: true,
 }
 

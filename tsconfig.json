@@ -1,5 +1,17 @@
 {
     "compilerOptions": {
+        "baseUrl": ".",
+        "paths": {
+            "src": [
+                "src/*"
+            ],
+            "core/*": [
+                "./src/core/*"
+            ],
+            "users/*": [
+                "./src/users/*"
+            ]
+        },
         "target": "es2017",
         "module": "commonjs",
         "lib": [
@@ -29,11 +41,11 @@
         "types": [
             "jest",
             "reflect-metadata"
-        ],
-        "baseUrl": "."
+        ]
     },
     "exclude": [
         "node_modules",
+        "dist",
         "database",
         "database_test"
     ],
