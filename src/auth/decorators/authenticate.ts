@@ -39,6 +39,8 @@ export function Authenticate() {
                 logger.log(data.user)
                 req.user =
                     (await User.findOne({ username: data.user })) ?? undefined
+                if (!req.user)
+                    return res.status(401).json({ msg: 'Invalid User' })
             } catch (error) {
                 if (error.name?.startsWith('JsonWebToken'))
                     return res.status(401).json(error)
