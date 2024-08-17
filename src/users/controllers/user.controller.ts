@@ -7,11 +7,13 @@ import { createUserValidation } from '../validators/users'
 import { CreateUserBody } from '../dtos/users'
 import { hash } from 'argon2'
 import logging from 'core/config/logger'
+import { Authenticate } from 'auth/decorators/authenticate'
 
 @Controller('/users')
 export class UserController {
     @Route('post', '/')
     @Validate(createUserValidation)
+    @Authenticate()
     async createUser(
         req: Request<object, object, CreateUserBody>,
         res: Response,

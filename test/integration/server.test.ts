@@ -3,7 +3,7 @@ import { application, Shutdown } from '../../src/main'
 import mongoose from 'mongoose'
 import { setupDatabase } from '../setup'
 
-describe('Our Application', () => {
+describe('Server', () => {
     beforeAll(async () => {
         await setupDatabase()
     })

@@ -1,7 +1,7 @@
 import mongoose, { Schema, Document } from 'mongoose'
 import { verify } from 'argon2'
 
-interface IUser extends Document {
+export interface IUser extends Document {
     username: string
     name: string
     lastName?: string
