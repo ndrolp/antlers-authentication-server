@@ -40,8 +40,10 @@ export function Authenticate() {
                 req.user =
                     (await User.findOne({ username: data.user })) ?? undefined
             } catch (error) {
+                if (error.name?.startsWith('JsonWebToken'))
+                    return res.status(401).json(error)
                 logger.error(error)
-                return res.status(422).json(error)
+                return res.status(400).json(error)
             }
 
             return originalMethod.call(this, req, res, next)
