@@ -11,7 +11,16 @@ export const MONGO_OPTIONS: mongoose.ConnectOptions = {
     authSource: 'admin',
 }
 
-export const mongo = {
+export interface DatabaseOptions {
+    MONGO_USER?: string
+    MONGO_PASSWORD?: string
+    MONGO_URL: string
+    MONGO_DATABASE?: string
+    MONGO_OPTIONS: mongoose.ConnectOptions
+    MONGO_CONNECTION: string
+}
+
+export const mongo: DatabaseOptions = {
     MONGO_USER,
     MONGO_PASSWORD,
     MONGO_URL,
@@ -20,11 +29,13 @@ export const mongo = {
     MONGO_CONNECTION: `mongodb://${MONGO_USER}:${MONGO_PASSWORD}@${MONGO_URL}/${MONGO_DATABASE}`,
 }
 
-export const connectDatabase = async (): Promise<Mongoose | undefined> => {
+export const connectDatabase = async (
+    options: DatabaseOptions = mongo,
+): Promise<Mongoose | undefined> => {
     try {
         const connection = await mongoose.connect(
-            mongo.MONGO_CONNECTION,
-            mongo.MONGO_OPTIONS,
+            options.MONGO_CONNECTION,
+            options.MONGO_OPTIONS,
         )
         logging.info(`Mongo Database Connected: v${connection.version}`)
         return connection
