@@ -8,6 +8,7 @@ const config: Config = {
     moduleNameMapper: {
         '^core/(.*)$': '<rootDir>/src/core/$1',
         '^users/(.*)$': '<rootDir>/src/users/$1',
+        '^auth/(.*)$': '<rootDir>/src/auth/$1',
     },
     detectOpenHandles: true,
 }

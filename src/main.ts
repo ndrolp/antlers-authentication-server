@@ -9,6 +9,8 @@ import 'reflect-metadata'
 import { defineRoutes } from './modules/routes'
 import MainController from './core/controllers/MainController'
 import { connectDatabase } from './core/config/database'
+import UserController from 'users/controllers/user.controller'
+import { AuthController } from 'auth/controllers/auth.controller'
 
 export const application = express()
 export let httpServer: ReturnType<typeof http.createServer>
@@ -37,7 +39,7 @@ export const Main = async () => {
     logging.info('Setup Routes')
     logging.info('-----------------------------------------')
 
-    defineRoutes([MainController], application)
+    defineRoutes([MainController, UserController, AuthController], application)
 
     application.use(routeNotFound)
     httpServer = http.createServer(application)

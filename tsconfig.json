@@ -2,14 +2,14 @@
     "compilerOptions": {
         "baseUrl": ".",
         "paths": {
-            "src": [
-                "src/*"
-            ],
             "core/*": [
                 "./src/core/*"
             ],
             "users/*": [
                 "./src/users/*"
+            ],
+            "auth/*": [
+                "./src/auth/*"
             ]
         },
         "target": "es2017",
