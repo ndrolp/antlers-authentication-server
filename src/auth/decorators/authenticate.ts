@@ -13,6 +13,11 @@ declare global {
     }
 }
 
+/**
+ * Decorator for express routes that validates the auth token and adds the user of the token
+ * to the **request.user**
+ *
+ */
 export function Authenticate() {
     return function(
         _target: object,
