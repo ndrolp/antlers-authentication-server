@@ -25,7 +25,7 @@ describe('Server', () => {
     }, 10000)
 
     it('The healthcheck route is working', async () => {
-        const response = await request(application).get('/healthcheck')
+        const response = await request(application).get('/api/healthcheck')
 
         expect(response.status).toBe(200)
         expect(response.body).toBeDefined()
@@ -49,7 +49,7 @@ describe('Server', () => {
         }
 
         let response = await request(application)
-            .post('/healthcheck')
+            .post('/api/healthcheck')
             .send(payload)
 
         expect(response.body).toBeDefined()
@@ -57,12 +57,14 @@ describe('Server', () => {
 
         payload = { name: 'Otro' }
 
-        response = await request(application).post('/healthcheck').send(payload)
+        response = await request(application)
+            .post('/api/healthcheck')
+            .send(payload)
 
         expect(response.body).toBeDefined()
         expect(response.body['hello']).toBe(payload.name)
 
-        response = await request(application).post('/healthcheck')
+        response = await request(application).post('/api/healthcheck')
         expect(response.status).toBe(422)
         expect(response.body['_original']).toBeDefined()
         expect(response.body.details).toBeDefined()

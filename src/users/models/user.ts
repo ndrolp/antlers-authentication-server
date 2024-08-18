@@ -1,5 +1,5 @@
 import mongoose, { Schema, Document } from 'mongoose'
-import { verify } from 'argon2'
+import { hash, verify } from 'argon2'
 
 export interface IUser extends Document {
     username: string
@@ -8,6 +8,7 @@ export interface IUser extends Document {
     email: string
     password: string
     validatePassword(password: string): Promise<boolean>
+    setPassword(password: string): Promise<void>
 }
 
 export const userSchema = new Schema < IUser > (
@@ -27,6 +28,12 @@ userSchema.methods.validatePassword = async function(
     password: string,
 ): Promise<boolean> {
     return await verify(this.password, password)
+}
+
+userSchema.methods.setPassword = async function(
+    password: string,
+): Promise<void> {
+    this.password = await hash(password)
 }
 
 userSchema.set('toJSON', {
