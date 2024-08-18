@@ -4,7 +4,12 @@ import logging from '../core/config/logger'
 
 type Constructor<T = object> = new (...args: unknown[]) => T
 
-export function defineRoutes(controllers: Constructor[], application: Express) {
+export function defineRoutes(
+    controllers: Constructor[],
+    application: Express,
+    addApi: boolean = true,
+    version: number = 1,
+) {
     for (let i = 0; i < controllers.length; i++) {
         const controller = new controllers[i]()
 
@@ -29,14 +34,14 @@ export function defineRoutes(controllers: Constructor[], application: Express) {
                     const handlers = routes.get(routeNames[k])
 
                     if (handlers) {
-                        application[method](
-                            controllerPath + routeNames[k],
-                            handlers,
-                        )
+                        const versionText =
+                            version && addApi ? `/v${version}` : ''
+                        const route = `${addApi ? '/api' : ''}${versionText}${controllerPath + routeNames[k]}`
+                        application[method](route, handlers)
                         logging.info(
                             'Loading Route',
                             method.toString().toUpperCase(),
-                            controllerPath + routeNames[k],
+                            route,
                         )
                     }
                 }

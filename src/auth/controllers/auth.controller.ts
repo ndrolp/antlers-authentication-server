@@ -1,4 +1,3 @@
-// import { Authenticate } from 'auth/decorators/authenticate'
 import logging from 'core/config/logger'
 import { Controller } from 'core/decorators/controller'
 import { Route } from 'core/decorators/route'
@@ -17,7 +16,6 @@ const loginCreateValidation = Joi.object({
 export class AuthController {
     @Route('post', '/login')
     @Validate(loginCreateValidation)
-    // @Authenticate()
     async login(
         req: Request<object, object, { username: string; password: string }>,
         res: Response,

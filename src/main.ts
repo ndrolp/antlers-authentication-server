@@ -39,7 +39,8 @@ export const Main = async () => {
     logging.info('Setup Routes')
     logging.info('-----------------------------------------')
 
-    defineRoutes([MainController, UserController, AuthController], application)
+    defineRoutes([UserController, AuthController], application)
+    defineRoutes([MainController], application, true, 0)
 
     application.use(routeNotFound)
     httpServer = http.createServer(application)
