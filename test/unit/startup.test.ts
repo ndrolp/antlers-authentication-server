@@ -19,7 +19,8 @@ describe('Startup Server', () => {
         const created = await createAdminUser()
         const user = await User.findOne({ username: 'admin' })
 
-        expect(created).toBeTruthy()
+        expect(created.status).toBe(true)
+        expect(created.message).toBe('CREATED')
         expect(user).toBeDefined()
         expect(user?.password).toBeDefined()
         expect(user?.username).toBe('admin')
@@ -29,7 +30,8 @@ describe('Startup Server', () => {
         const created = await createAdminUser()
         const user = await User.findOne({ username: 'admin' })
 
-        expect(created).toBeTruthy()
+        expect(created.status).toBe(true)
+        expect(created.message).toBe('EXISTENT')
         expect(user).toBeDefined()
         expect(user?.password).toBeDefined()
         expect(user?.username).toBe('admin')

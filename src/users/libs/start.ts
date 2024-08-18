@@ -1,12 +1,17 @@
 import { User } from 'users/models/user'
 import logger from 'core/config/logger'
 
-export async function createAdminUser(): Promise<boolean> {
+interface CreateAdminReturn {
+    status: boolean
+    message: 'CREATED' | 'EXISTENT' | 'ERROR'
+}
+
+export async function createAdminUser(): Promise<CreateAdminReturn> {
     try {
         const currentAdmin = await User.findOne({ username: 'admin' })
         if (currentAdmin) {
             logger.info('Admin user already exists')
-            return true
+            return { status: true, message: 'EXISTENT' }
         }
 
         const newAdmin = new User({
@@ -19,9 +24,9 @@ export async function createAdminUser(): Promise<boolean> {
         await newAdmin.save()
         logger.info('Admin User Created')
 
-        return true
+        return { status: true, message: 'CREATED' }
     } catch (error) {
         logger.error(error)
-        return false
+        return { status: false, message: 'ERROR' }
     }
 }
