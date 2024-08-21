@@ -28,7 +28,8 @@ export class AuthController {
             if (!valid)
                 return res.status(401).json({ msg: 'Invalid credentials' })
 
-            const token = jwt.sign({ user: user?.username }, 'ASD', {
+            //TODO: Implement PRIVATE and PUBLIC KEYS
+            const token = jwt.sign({ user }, 'ASD', {
                 expiresIn: '15min',
             })
             const refresh = jwt.sign({ user }, 'ASD', { expiresIn: '7d' })
