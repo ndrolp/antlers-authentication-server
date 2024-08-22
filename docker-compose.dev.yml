@@ -11,7 +11,7 @@ services:
             MONGO_URL: ${MONGO_URL}
         volumes:
             - ./:/usr/src/app
-            - /usr/src/app/node_modules
+            - ./node_modules:/usr/src/app/node_modules
         ports:
             - ${ANTLERS_SERVER_PORT}:5000
         command: npm run dev
