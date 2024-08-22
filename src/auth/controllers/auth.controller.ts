@@ -7,9 +7,26 @@ import Joi from 'joi'
 import { User } from 'users/models/user'
 import jwt from 'jsonwebtoken'
 
+export type TUser = {
+    _id: string
+    username: string
+    email: string
+    name: string
+}
+
+export interface TokenData {
+    iat: string
+    exp: string
+    user: TUser
+}
+const TOKEN_DURATION = '15min'
+
 const loginCreateValidation = Joi.object({
     username: Joi.string().required(),
     password: Joi.string().required(),
+})
+const refreshValidation = Joi.object({
+    refresh: Joi.string().required(),
 })
 
 @Controller('/auth')
@@ -30,7 +47,7 @@ export class AuthController {
 
             //TODO: Implement PRIVATE and PUBLIC KEYS
             const token = jwt.sign({ user }, 'ASD', {
-                expiresIn: '15min',
+                expiresIn: TOKEN_DURATION,
             })
             const refresh = jwt.sign({ user }, 'ASD', { expiresIn: '7d' })
 
@@ -38,6 +55,25 @@ export class AuthController {
         } catch (error) {
             logging.error(error)
             return res.status(400).json(error)
+        }
+    }
+
+    @Route('post', '/refresh')
+    @Validate(refreshValidation)
+    async refresh(
+        req: Request<object, object, { refresh: string }>,
+        res: Response,
+    ) {
+        try {
+            const data = jwt.verify(req.body.refresh, 'ASD') as { user: TUser }
+            logging.warn(data)
+            const user = await User.findOne({ username: data.user.username })
+            const token = jwt.sign({ user }, 'ASD', {
+                expiresIn: TOKEN_DURATION,
+            })
+            return res.status(200).json({ token })
+        } catch (error) {
+            return res.status(400).json({ error, body: req.body })
         }
     }
 }

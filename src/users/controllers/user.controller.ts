@@ -12,8 +12,8 @@ import { Authenticate } from 'auth/decorators/authenticate'
 @Controller('/users')
 export class UserController {
     @Route('post', '/')
-    @Validate(createUserValidation)
     @Authenticate()
+    @Validate(createUserValidation)
     async createUser(
         req: Request<object, object, CreateUserBody>,
         res: Response,

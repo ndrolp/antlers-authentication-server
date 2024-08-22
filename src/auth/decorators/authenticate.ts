@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from 'express'
 import logger from 'core/config/logger'
 import { IUser, User } from 'users/models/user'
 import jwt from 'jsonwebtoken'
+import { TUser } from 'auth/controllers/auth.controller'
 
 export type Roles = 'admin' | 'user' | 'manger'
 
@@ -39,11 +40,12 @@ export function Authenticate() {
                         .json({ msg: 'No authorization token provided' })
 
                 const data = jwt.verify(authorization.split(' ')[1], 'ASD') as {
-                    user: string
+                    user: TUser
                 }
                 logger.log(data.user)
                 req.user =
-                    (await User.findOne({ username: data.user })) ?? undefined
+                    (await User.findOne({ username: data.user.username })) ??
+                    undefined
                 if (!req.user)
                     return res.status(401).json({ msg: 'Invalid User' })
             } catch (error) {
