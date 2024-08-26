@@ -46,11 +46,12 @@ export class UserController {
             const limit = parseInt(req.query.limit ?? 20)
             const skip = (parseInt(req.query.page ?? 1) - 1) * limit
 
+            const count = 1
             const users = await User.find()
                 .sort('username')
                 .limit(limit)
                 .skip(skip)
-            return res.json(users)
+            return res.json({ data: users, count })
         } catch (error) {
             logging.error(error)
 
