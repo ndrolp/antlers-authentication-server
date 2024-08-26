@@ -46,7 +46,7 @@ export class UserController {
             const limit = parseInt(req.query.limit ?? 20)
             const skip = (parseInt(req.query.page ?? 1) - 1) * limit
 
-            const count = 1
+            const count = await User.countDocuments()
             const users = await User.find()
                 .sort('username')
                 .limit(limit)
