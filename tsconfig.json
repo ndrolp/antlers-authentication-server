@@ -10,6 +10,9 @@
             ],
             "auth/*": [
                 "./src/auth/*"
+            ],
+            "applications/*": [
+                "./src/applications/*"
             ]
         },
         "target": "es2017",

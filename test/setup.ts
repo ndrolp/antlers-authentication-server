@@ -1,3 +1,4 @@
+import { Application } from 'applications/models/application'
 import { connectDatabase, DatabaseOptions } from '../src/core/config/database'
 import dotenv from 'dotenv'
 import mongoose from 'mongoose'
@@ -28,4 +29,5 @@ export async function setupDatabase() {
 
 export async function cleanDatabase() {
     await User.deleteMany()
+    await Application.deleteMany()
 }
