@@ -1,6 +1,7 @@
 import { User } from 'users/models/user'
 import logger from 'core/config/logger'
 import { Application } from 'applications/models/application'
+import { Schema } from 'mongoose'
 
 interface CreateAdminReturn {
     status: boolean
@@ -60,5 +61,23 @@ export async function createSkullApplication(): Promise<CreateAdminReturn> {
     } catch (error) {
         logger.error(error)
         return { status: false, message: 'ERROR' }
+    }
+}
+
+export async function bindSkullToAdmin() {
+    try {
+        const app = await Application.findOne({ name: 'Skull' })
+        const user = await User.findOne({ username: 'admin' })
+
+        console.log({ app, user })
+        if (!app || !user) return false
+
+        app.users.push(user._id as Schema.Types.ObjectId)
+        console.log({ USER: user._id })
+        app.save()
+
+        return true
+    } catch (error) {
+        return false
     }
 }

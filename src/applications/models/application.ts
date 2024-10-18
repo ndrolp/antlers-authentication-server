@@ -1,12 +1,12 @@
 import mongoose, { Document, Schema } from 'mongoose'
 import { IRole } from 'users/models/roles'
-import { IUser } from 'users/models/user'
+// import { IUser } from 'users/models/user'
 
 export interface IApplication extends Document {
     name: string
     description: string
-    roles: [IRole] | [string]
-    users: [IUser] | [string]
+    roles: IRole[] | string[]
+    users: Schema.Types.ObjectId[]
 }
 
 export const applicationSchema = new Schema<IApplication>({

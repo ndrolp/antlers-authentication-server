@@ -11,7 +11,11 @@ import MainController from './core/controllers/MainController'
 import { connectDatabase } from './core/config/database'
 import UserController from 'users/controllers/user.controller'
 import { AuthController } from 'auth/controllers/auth.controller'
-import { createAdminUser } from 'users/libs/start'
+import {
+    bindSkullToAdmin,
+    createAdminUser,
+    createSkullApplication,
+} from 'users/libs/start'
 
 export const application = express()
 export let httpServer: ReturnType<typeof http.createServer>
@@ -36,6 +40,8 @@ export const Main = async () => {
     application.use(loggingHandler)
     application.use(corsHandler)
     await createAdminUser()
+    await createSkullApplication()
+    await bindSkullToAdmin()
 
     logging.info('-----------------------------------------')
     logging.info('Setup Routes')
