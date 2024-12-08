@@ -1,6 +1,6 @@
 import { Express } from 'express'
 import { RouteHandlers } from '../core/libs/routes'
-import logging from '../core/config/logger'
+import logger from '../core/config/logger'
 
 type Constructor<T = object> = new (...args: unknown[]) => T
 
@@ -38,7 +38,7 @@ export function defineRoutes(
                             version && addApi ? `/v${version}` : ''
                         const route = `${addApi ? '/api' : ''}${versionText}${controllerPath + routeNames[k]}`
                         application[method](route, handlers)
-                        logging.info(
+                        logger.info(
                             'Loading Route',
                             method.toString().toUpperCase(),
                             route,
