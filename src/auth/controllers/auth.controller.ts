@@ -1,4 +1,4 @@
-import logging from 'core/config/logger'
+import logger from 'core/config/logger'
 import { Controller } from 'core/decorators/controller'
 import { Route } from 'core/decorators/route'
 import { Validate } from 'core/decorators/validate'
@@ -53,7 +53,7 @@ export class AuthController {
 
             return res.status(200).json({ token, refresh })
         } catch (error) {
-            logging.error(error)
+            logger.error(error)
             return res.status(400).json(error)
         }
     }
@@ -66,7 +66,7 @@ export class AuthController {
     ) {
         try {
             const data = jwt.verify(req.body.refresh, 'ASD') as { user: TUser }
-            logging.warn(data)
+            logger.warn(data)
             const user = await User.findOne({ username: data.user.username })
             const token = jwt.sign({ user }, 'ASD', {
                 expiresIn: TOKEN_DURATION,

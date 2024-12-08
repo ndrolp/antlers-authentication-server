@@ -6,7 +6,7 @@ import { IUser, User } from 'users/models/user'
 import { createUserValidation } from '../validators/users'
 import { CreateUserBody } from '../dtos/users'
 import { hash } from 'argon2'
-import logging from 'core/config/logger'
+import logger from 'core/config/logger'
 import { Authenticate } from 'auth/decorators/authenticate'
 
 export interface IUserFilter extends IUser {
@@ -28,10 +28,10 @@ export class UserController {
             req.body.password = password
             const newUser = new User(req.body)
             await newUser.save()
-            logging.log(`User created: ${newUser.name}`)
+            logger.log(`User created: ${newUser.name}`)
             return res.status(201).json(newUser)
         } catch (error) {
-            logging.error(error)
+            logger.error(error)
             return res.status(400).json(error)
         }
     }
@@ -53,7 +53,7 @@ export class UserController {
                 .skip(skip)
             return res.json({ data: users, count })
         } catch (error) {
-            logging.error(error)
+            logger.error(error)
 
             return res.status(400).json(error)
         }

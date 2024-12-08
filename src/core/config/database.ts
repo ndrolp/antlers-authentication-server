@@ -1,5 +1,5 @@
 import mongoose, { Mongoose } from 'mongoose'
-import logging from './logger'
+import logger from './logger'
 
 export const MONGO_USER = process.env.MONGO_USER
 export const MONGO_PASSWORD = process.env.MONGO_PASSWORD
@@ -37,11 +37,11 @@ export const connectDatabase = async (
             options.MONGO_CONNECTION,
             options.MONGO_OPTIONS,
         )
-        logging.info(`Mongo Database Connected: v${connection.version}`)
+        logger.info(`Mongo Database Connected: v${connection.version}`)
         return connection
     } catch (error) {
-        logging.error('Database error')
-        logging.error(error)
+        logger.error('Database error')
+        logger.error(error)
         return
     }
 }
