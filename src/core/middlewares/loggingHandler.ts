@@ -1,17 +1,17 @@
 import { Request, Response, NextFunction } from 'express'
-import logging from '../config/logger'
+import logger from '../config/logger'
 
 export function loggingHandler(
     req: Request,
     res: Response,
     next: NextFunction,
 ) {
-    logging.log(
+    logger.log(
         `Incomming - METHOD: [${req.method}] - URL: [${req.url}] - IP: [${req.socket.remoteAddress}]`,
     )
 
     res.on('finish', () => {
-        logging.log(
+        logger.log(
             `Result - METHOD: [${req.method}] - URL: [${req.url}] - IP: [${req.socket.remoteAddress}] - STATUS: [${res.statusCode}]`,
         )
     })

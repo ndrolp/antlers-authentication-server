@@ -3,7 +3,7 @@ import 'dotenv/config'
 import express from 'express'
 import { corsHandler } from './core/middlewares/corsHandler'
 import { routeNotFound } from './core//middlewares/routeNotFound'
-import logging from './core/config/logger'
+import logger from './core/config/logger'
 import loggingHandler from './core/middlewares/loggingHandler'
 import 'reflect-metadata'
 import { defineRoutes } from './modules/routes'
@@ -16,26 +16,27 @@ import {
     createAdminUser,
     createSkullApplication,
 } from 'users/libs/start'
+import { server } from 'core/config/general'
 
 export const application = express()
 export let httpServer: ReturnType<typeof http.createServer>
 
 export const Main = async () => {
-    logging.info('-----------------------------------------')
-    logging.info('Initializing API')
-    logging.info('-----------------------------------------')
+    logger.info('-----------------------------------------')
+    logger.info('Initializing API')
+    logger.info('-----------------------------------------')
 
     application.use(express.json())
     application.use(express.urlencoded({ extended: true }))
 
-    logging.info('-----------------------------------------')
-    logging.info('Connect to Database')
-    logging.info('-----------------------------------------')
+    logger.info('-----------------------------------------')
+    logger.info('Connect to Database')
+    logger.info('-----------------------------------------')
     await connectDatabase()
 
-    logging.info('-----------------------------------------')
-    logging.info('Logging & Configuration')
-    logging.info('-----------------------------------------')
+    logger.info('-----------------------------------------')
+    logger.info('Logging & Configuration')
+    logger.info('-----------------------------------------')
 
     application.use(loggingHandler)
     application.use(corsHandler)
@@ -43,17 +44,17 @@ export const Main = async () => {
     await createSkullApplication()
     await bindSkullToAdmin()
 
-    logging.info('-----------------------------------------')
-    logging.info('Setup Routes')
-    logging.info('-----------------------------------------')
+    logger.info('-----------------------------------------')
+    logger.info('Setup Routes')
+    logger.info('-----------------------------------------')
 
     defineRoutes([UserController, AuthController], application)
     defineRoutes([MainController], application, true, 0)
 
     application.use(routeNotFound)
     httpServer = http.createServer(application)
-    httpServer.listen(5000, () => {
-        logging.info('SERVER STARTED')
+    httpServer.listen(server.SERVER_HOST_PORT ?? 3000, () => {
+        logger.info(`SERVER STARTED ON ${server.SERVER_HOST_PORT}`)
     })
 }
 

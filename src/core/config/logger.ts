@@ -110,7 +110,7 @@ export function error(message?: unknown, ...optionalParams: unknown[]) {
         )
 }
 
-const logging = {
+const logger = {
     log,
     info,
     warn,
@@ -119,4 +119,4 @@ const logging = {
     getCallingFunction,
 }
 
-export default logging
+export default logger
