@@ -1,21 +1,13 @@
-import mongoose, { Document, Schema } from 'mongoose'
-import { IRole } from 'users/models/roles'
-// import { IUser } from 'users/models/user'
+import { Schema, model, Document, Types } from 'mongoose'
 
-export interface IApplication extends Document {
+interface IApplication extends Document {
     name: string
-    description: string
-    roles: IRole[] | string[]
-    users: Schema.Types.ObjectId[]
+    owner: Types.ObjectId // Reference to User (owner of the application)
 }
 
-export const applicationSchema = new Schema<IApplication>({
-    users: [{ type: Schema.Types.ObjectId, ref: 'users', unique: false }],
-    name: { type: String, required: true, unique: false },
-    description: { type: String, required: false },
+const ApplicationSchema = new Schema<IApplication>({
+    name: { type: String, required: true, unique: true },
+    owner: { type: Schema.Types.ObjectId, ref: 'User', required: true },
 })
 
-export const Application = mongoose.model<IApplication & Document>(
-    'applications',
-    applicationSchema,
-)
+export const Application = model<IApplication>('Application', ApplicationSchema)

@@ -1,55 +1,56 @@
-import mongoose, { Schema, Document } from 'mongoose'
 import { hash, verify } from 'argon2'
-import { IApplication } from 'src/applications/models/application'
+import { Schema, model, Document, Types } from 'mongoose'
+
+// The schema for each application a user belongs to
+export interface IUserApplication {
+    application: Types.ObjectId // Reference to Application
+    roles: Types.ObjectId[] // Array of Roles within that application
+}
 
 export interface IUser extends Document {
     username: string
-    name: string
-    lastName?: string
     email: string
+    name: string
     password: string
-    applications: [IApplication] | [string]
+    applications: IUserApplication[]
     validatePassword(password: string): Promise<boolean>
     setPassword(password: string): Promise<void>
 }
 
-export const userSchema = new Schema<IUser>(
-    {
-        username: { type: String, required: true, unique: true },
-        email: { type: String, required: true },
-        name: { type: String, required: true },
-        lastName: { type: String, required: false },
-        password: { type: String, required: true },
-        applications: [
-            {
+const UserSchema = new Schema<IUser>({
+    username: { type: String, required: true, unique: true },
+    email: { type: String, required: true, unique: true },
+    name: { type: String, required: true },
+    password: { type: String, required: true },
+    applications: [
+        {
+            application: {
                 type: Schema.Types.ObjectId,
-                ref: 'applications',
-                required: false,
+                ref: 'Application',
+                required: true,
             },
-        ],
-    },
-    {
-        timestamps: true,
-    },
-)
+            roles: [{ type: Schema.Types.ObjectId, ref: 'Role' }],
+        },
+    ],
+})
 
-userSchema.methods.validatePassword = async function (
+UserSchema.methods.validatePassword = async function (
     password: string,
 ): Promise<boolean> {
     return await verify(this.password, password)
 }
 
-userSchema.methods.setPassword = async function (
+UserSchema.methods.setPassword = async function (
     password: string,
 ): Promise<void> {
     this.password = await hash(password)
 }
 
-userSchema.set('toJSON', {
+UserSchema.set('toJSON', {
     transform: (_doc, ret) => {
         delete ret.password
         return ret
     },
 })
 
-export const User = mongoose.model<IUser & Document>('users', userSchema)
+export const User = model<IUser>('User', UserSchema)

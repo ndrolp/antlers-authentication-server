@@ -12,9 +12,9 @@ import { connectDatabase } from './core/config/database'
 import UserController from 'users/controllers/user.controller'
 import { AuthController } from 'auth/controllers/auth.controller'
 import {
-    bindSkullToAdmin,
+    // bindSkullToAdmin,
     createAdminUser,
-    createSkullApplication,
+    // createSkullApplication,
 } from 'users/libs/start'
 import { server } from 'core/config/general'
 
@@ -41,8 +41,8 @@ export const Main = async () => {
     application.use(loggingHandler)
     application.use(corsHandler)
     await createAdminUser()
-    await createSkullApplication()
-    await bindSkullToAdmin()
+    // await createSkullApplication()
+    // await bindSkullToAdmin()
 
     logger.info('-----------------------------------------')
     logger.info('Setup Routes')
@@ -53,7 +53,7 @@ export const Main = async () => {
 
     application.use(routeNotFound)
     httpServer = http.createServer(application)
-    httpServer.listen(server.SERVER_HOST_PORT ?? 3000, () => {
+    httpServer.listen(server.SERVER_HOST_PORT ?? 5000, () => {
         logger.info(`SERVER STARTED ON ${server.SERVER_HOST_PORT}`)
     })
 }

@@ -1,17 +1,19 @@
-import mongoose, { Schema } from 'mongoose'
+import { model, Schema } from 'mongoose'
 // import { IUser } from './user'
-
-export interface IRole extends Document {
-    // users: IUser[]
-    name: string
-    label: string
-    description: string
+interface IRole extends Document {
+    name: string // Role name, e.g., 'admin', 'viewer'
+    application: Schema.Types.ObjectId // Reference to Application
+    permissions: Schema.Types.ObjectId[] // Array of Permissions within this role
 }
 
-export const roleSchema = new Schema<IRole>({
-    name: { type: String, required: true, unique: true },
-    label: { type: String, required: true, unique: false },
-    description: { type: String, required: true, unique: false },
+const RoleSchema = new Schema<IRole>({
+    name: { type: String, required: true },
+    application: {
+        type: Schema.Types.ObjectId,
+        ref: 'Application',
+        required: true,
+    },
+    permissions: [{ type: Schema.Types.ObjectId, ref: 'Permission' }],
 })
 
-export const Roles = mongoose.model<IRole>('roles', roleSchema)
+export const Role = model<IRole>('Role', RoleSchema)
