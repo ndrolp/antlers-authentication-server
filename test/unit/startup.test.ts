@@ -4,9 +4,9 @@ import { setupDatabase, cleanDatabase } from '../setup'
 import {
     createAdminUser,
     // createSkullApplication,
-} from '../../src/users/libs/start'
-import { User } from '../../src/users/models/user'
-import { Application } from 'applications/models/application'
+} from 'features/users/libs/start'
+import { User } from 'features/users/models/user'
+import { Application } from 'features/applications/models/application'
 
 describe('Startup Server', () => {
     beforeAll(async () => {

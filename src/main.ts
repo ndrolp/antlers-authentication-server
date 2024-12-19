@@ -9,13 +9,13 @@ import 'reflect-metadata'
 import { defineRoutes } from './modules/routes'
 import MainController from './core/controllers/MainController'
 import { connectDatabase } from './core/config/database'
-import UserController from 'users/controllers/user.controller'
+import UserController from 'features/users/controllers/user.controller'
 import { AuthController } from 'auth/controllers/auth.controller'
 import {
     // bindSkullToAdmin,
     createAdminUser,
     // createSkullApplication,
-} from 'users/libs/start'
+} from 'features/users/libs/start'
 import { server } from 'core/config/general'
 
 export const application = express()

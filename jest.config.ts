@@ -6,10 +6,9 @@ const config: Config = {
     roots: ['<rootDir>/test'],
     maxWorkers: 1,
     moduleNameMapper: {
+        '^features/(.*)$': '<rootDir>/src/features/$1',
         '^core/(.*)$': '<rootDir>/src/core/$1',
-        '^users/(.*)$': '<rootDir>/src/users/$1',
         '^auth/(.*)$': '<rootDir>/src/auth/$1',
-        '^applications/(.*)$': '<rootDir>/src/applications/$1',
     },
     detectOpenHandles: true,
 }

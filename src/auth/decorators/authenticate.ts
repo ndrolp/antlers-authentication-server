@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express'
 import logger from 'core/config/logger'
-import { IUser, User } from 'users/models/user'
+import { IUser, User } from 'features/users/models/user'
 import jwt from 'jsonwebtoken'
 import { TUser } from 'auth/controllers/auth.controller'
 
@@ -20,14 +20,14 @@ declare global {
  *
  */
 export function Authenticate() {
-    return function(
+    return function (
         _target: object,
         _propertyKey: string,
         descriptor: PropertyDescriptor,
     ) {
         const originalMethod = descriptor.value
 
-        descriptor.value = async function(
+        descriptor.value = async function (
             req: Request,
             res: Response,
             next: NextFunction,

@@ -1,9 +1,9 @@
-import { Application } from 'applications/models/application'
+import { Application } from '../src/features/applications/models/application'
 import { connectDatabase, DatabaseOptions } from '../src/core/config/database'
 import dotenv from 'dotenv'
 import mongoose from 'mongoose'
 import path from 'path'
-import { User } from 'users/models/user'
+import { User } from 'features/users/models/user'
 export async function setupDatabase() {
     const dotenvFile = path.join(__dirname, '..', '.test.env')
     dotenv.configDotenv({ path: dotenvFile })

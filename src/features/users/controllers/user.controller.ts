@@ -2,7 +2,7 @@ import { Request, Response } from 'express'
 import { Controller } from 'core/decorators/controller'
 import { Route } from 'core/decorators/route'
 import { Validate } from 'core/decorators/validate'
-import { IUser, User } from 'users/models/user'
+import { IUser, User } from 'features/users/models/user'
 import { createUserValidation } from '../validators/users'
 import { CreateUserBody } from '../dtos/users'
 import { hash } from 'argon2'
@@ -51,6 +51,16 @@ export class UserController {
                 .sort('username')
                 .limit(limit)
                 .skip(skip)
+                .populate({
+                    path: 'applications.application', // Populate the application itself (reference to Application model)
+                })
+                .populate({
+                    path: 'applications.roles', // Populate roles for each application
+                    select: 'name permissions', // You can specify which fields to return from Role
+                    populate: {
+                        path: 'permissions', // Populate the permissions for each role
+                    },
+                })
             return res.json({ data: users, count })
         } catch (error) {
             logger.error(error)

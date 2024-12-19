@@ -4,7 +4,7 @@ import { Route } from 'core/decorators/route'
 import { Validate } from 'core/decorators/validate'
 import { Request, Response } from 'express'
 import Joi from 'joi'
-import { User } from 'users/models/user'
+import { User } from 'features/users/models/user'
 import jwt from 'jsonwebtoken'
 
 export type TUser = {

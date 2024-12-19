@@ -4,12 +4,12 @@ import { Schema, model, Document, Types } from 'mongoose'
 // The schema for each application a user belongs to
 export interface IUserApplication {
     application: Types.ObjectId // Reference to Application
-    roles: Types.ObjectId[] // Array of Roles within that application
+    roles: Types.ObjectId[] // References to Role
 }
 
 export interface IUser extends Document {
-    username: string
     email: string
+    username: string // Added username field
     name: string
     password: string
     applications: IUserApplication[]
@@ -18,8 +18,8 @@ export interface IUser extends Document {
 }
 
 const UserSchema = new Schema<IUser>({
-    username: { type: String, required: true, unique: true },
     email: { type: String, required: true, unique: true },
+    username: { type: String, required: true, unique: true }, // Username is unique
     name: { type: String, required: true },
     password: { type: String, required: true },
     applications: [

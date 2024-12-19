@@ -1,6 +1,6 @@
-import { User } from 'users/models/user'
+import { User } from 'features/users/models/user'
 import logger from 'core/config/logger'
-import { Application } from 'applications/models/application'
+import { Application } from 'features/applications/models/application'
 
 interface CreateAdminReturn {
     status: boolean
